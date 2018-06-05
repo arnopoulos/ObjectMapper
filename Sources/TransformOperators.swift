@@ -55,6 +55,7 @@ public func >>> <Transform: TransformType>(left: Transform.Object?, right: (Map,
 
 
 /// Implicitly unwrapped optional object of basic type with Transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout Transform.Object!, right: (Map, Transform)) {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -66,6 +67,7 @@ public func <- <Transform: TransformType>(left: inout Transform.Object!, right: 
 	default: ()
 	}
 }
+#endif
 
 /// Array of Basic type with Transform
 public func <- <Transform: TransformType>(left: inout [Transform.Object], right: (Map, Transform)) {
@@ -112,6 +114,7 @@ public func >>> <Transform: TransformType>(left: [Transform.Object]?, right: (Ma
 
 
 /// Implicitly unwrapped optional array of Basic type with Transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout [Transform.Object]!, right: (Map, Transform)) {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -123,6 +126,7 @@ public func <- <Transform: TransformType>(left: inout [Transform.Object]!, right
 	default: ()
 	}
 }
+#endif
 
 /// Dictionary of Basic type with Transform
 public func <- <Transform: TransformType>(left: inout [String: Transform.Object], right: (Map, Transform)) {
@@ -169,6 +173,7 @@ public func >>> <Transform: TransformType>(left: [String: Transform.Object]?, ri
 
 
 /// Implicitly unwrapped optional dictionary of Basic type with Transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout [String: Transform.Object]!, right: (Map, Transform)) {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -180,6 +185,7 @@ public func <- <Transform: TransformType>(left: inout [String: Transform.Object]
 	default: ()
 	}
 }
+#endif
 
 // MARK:- Transforms of Mappable Objects - <T: BaseMappable>
 
@@ -228,6 +234,7 @@ public func >>> <Transform: TransformType>(left: Transform.Object?, right: (Map,
 
 
 /// Implicitly unwrapped optional Mappable objects that have transforms
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout Transform.Object!, right: (Map, Transform)) where Transform.Object: BaseMappable {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -239,6 +246,7 @@ public func <- <Transform: TransformType>(left: inout Transform.Object!, right: 
 	default: ()
 	}
 }
+#endif
 
 
 // MARK:- Dictionary of Mappable objects with a transform - Dictionary<String, T: BaseMappable>
@@ -285,6 +293,7 @@ public func >>> <Transform: TransformType>(left: Dictionary<String, Transform.Ob
 
 
 /// Implicitly unwrapped Optional Dictionary of Mappable object <String, T: Mappable> with a transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout Dictionary<String, Transform.Object>!, right: (Map, Transform)) where Transform.Object: BaseMappable {
 	let (map, transform) = right
 	if map.mappingType == .fromJSON && map.isKeyPresent, let dictionary = map.currentValue as? [String : Any]{
@@ -294,6 +303,7 @@ public func <- <Transform: TransformType>(left: inout Dictionary<String, Transfo
 		left >>> right
 	}
 }
+#endif
 
 /// Dictionary of Mappable objects <String, T: Mappable> with a transform
 public func <- <Transform: TransformType>(left: inout Dictionary<String, [Transform.Object]>, right: (Map, Transform)) where Transform.Object: BaseMappable {
@@ -368,9 +378,10 @@ public func >>> <Transform: TransformType>(left: Dictionary<String, [Transform.O
 
 
 /// Implicitly unwrapped Optional Dictionary of Mappable object <String, T: Mappable> with a transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout Dictionary<String, [Transform.Object]>!, right: (Map, Transform)) where Transform.Object: BaseMappable {
 	let (map, transform) = right
-	
+
 	if let dictionary = map.currentValue as? [String : [Any]], map.mappingType == .fromJSON && map.isKeyPresent {
 		let transformedDictionary = dictionary.map { (arg: (key: String, values: [Any])) -> (String, [Transform.Object]) in
 			let (key, values) = arg
@@ -387,6 +398,7 @@ public func <- <Transform: TransformType>(left: inout Dictionary<String, [Transf
 		left >>> right
 	}
 }
+#endif
 
 // MARK:- Array of Mappable objects with transforms - Array<T: BaseMappable>
 
@@ -436,6 +448,7 @@ public func >>> <Transform: TransformType>(left: Array<Transform.Object>?, right
 
 
 /// Implicitly unwrapped Optional array of Mappable objects
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout Array<Transform.Object>!, right: (Map, Transform)) where Transform.Object: BaseMappable {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -447,6 +460,7 @@ public func <- <Transform: TransformType>(left: inout Array<Transform.Object>!, 
 	default: ()
 	}
 }
+#endif
 
 // MARK:- Array of Array of objects - Array<Array<T>>> with transforms
 
@@ -506,6 +520,7 @@ public func >>> <Transform: TransformType>(left: [[Transform.Object]]?, right: (
 
 
 /// Implicitly unwrapped Optional array of array of objects with transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout [[Transform.Object]]!, right: (Map, Transform)) {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -521,6 +536,7 @@ public func <- <Transform: TransformType>(left: inout [[Transform.Object]]!, rig
 		break
 	}
 }
+#endif
 
 // MARK:- Set of Mappable objects with a transform - Set<T: BaseMappable>
 
@@ -573,6 +589,7 @@ public func >>> <Transform: TransformType>(left: Set<Transform.Object>?, right: 
 
 
 /// Implicitly unwrapped Optional set of Mappable objects with transform
+#if !swift(>=4.0)
 public func <- <Transform: TransformType>(left: inout Set<Transform.Object>!, right: (Map, Transform)) where Transform.Object: BaseMappable {
 	let (map, transform) = right
 	switch map.mappingType {
@@ -585,6 +602,7 @@ public func <- <Transform: TransformType>(left: inout Set<Transform.Object>!, ri
 	default: ()
 	}
 }
+#endif
 
 
 private func fromJSONArrayWithTransform<Transform: TransformType>(_ input: Any?, transform: Transform) -> [Transform.Object]? {
